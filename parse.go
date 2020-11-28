@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
@@ -44,14 +43,11 @@ func Parse(record string) *Config {
 	var cs Creds
 
 	cs.getCreds()
-	c, err := getCredbyName(cs, "zoom")
-
-	if err != nil {
-		fmt.Printf("Problem with loadingf creds %v", err)
-	}
-
-	if strings.Contains(config.To, c.Secret) {
-		config.To = config.To + c.Password
+	for _, c := range cs.Creds {
+		config.To = strings.ReplaceAll(config.To, "#{URL}", c.URL)
+		config.To = strings.ReplaceAll(config.To, "#{PWD}", c.Password)
+		config.To = strings.ReplaceAll(config.To, "#{USER}", c.User)
+		config.To = strings.ReplaceAll(config.To, "#{SECRET}", c.Secret)
 	}
 
 	return config

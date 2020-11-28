@@ -18,6 +18,7 @@ type Cred struct {
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
 	Secret   string `yaml:"secret"`
+	URL      string `yaml:"token"`
 }
 
 func (c *Creds) getCreds() *Creds {
