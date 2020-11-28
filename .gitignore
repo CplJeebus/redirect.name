@@ -6,3 +6,10 @@ docs/
 # ignore build artifacts
 redirect.name
 server
+
+# ignore real secrets 
+secrets.yaml
+
+# ignore helper scripts
+build-all.sh
+build-server.sh

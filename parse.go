@@ -1,6 +1,10 @@
 package main
 
-import "regexp"
+import (
+	"fmt"
+	"regexp"
+	"strings"
+)
 
 type Config struct {
 	From          string
@@ -35,6 +39,19 @@ func Parse(record string) *Config {
 		if config.RedirectState == "" {
 			config.RedirectState = stateMatches[2]
 		}
+	}
+
+	var cs Creds
+
+	cs.getCreds()
+	c, err := getCredbyName(cs, "zoom")
+
+	if err != nil {
+		fmt.Printf("Problem with loadingf creds %v", err)
+	}
+
+	if strings.Contains(config.To, c.Secret) {
+		config.To = config.To + c.Password
 	}
 
 	return config
