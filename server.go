@@ -13,7 +13,7 @@ import (
 )
 
 func fallback(w http.ResponseWriter, r *http.Request, reason string) {
-	location := "http://redirect.name/"
+	location := "http://rockinglb.wynne.rocks/shit"
 	if reason != "" {
 		location = fmt.Sprintf("%s#reason=%s", location, url.QueryEscape(reason))
 	}
@@ -64,6 +64,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func ohShit(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Holy Shit somehting went wrong. %s", r.Host)
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -71,6 +75,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/shit", handler)
 	srv := &http.Server{
 		Addr:         ":" + port,
 		ReadTimeout:  2 * time.Second,
